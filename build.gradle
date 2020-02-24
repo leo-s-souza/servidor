@@ -1,0 +1,59 @@
+group 'br.com.egula.java'
+version '1.3'
+
+apply plugin: 'java'
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+sourceCompatibility = 1.8
+mainClassName = 'Padrao'
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+    // Classes padrões da CASA Automação
+    compile files('../casagold-classes/source/dist/ClassesCasaGold.jar')
+
+    // Firebird
+    compile 'org.firebirdsql.jdbc:jaybird-jdk18:2.2.14'
+
+    // Manipulação de JSONs
+    compile 'org.json:json:20180130'
+
+    // Geolocalizador
+    compile 'com.google.maps:google-maps-services:0.2.6'
+
+    // Firebase Admin
+    compile('com.google.firebase:firebase-admin:5.9.0') {
+        exclude group: "commons-codec"
+        exclude group: 'com.google.guava'
+    }
+
+    // Guava para corrigir conflito da biblioteca do Firebase
+    compile 'com.google.guava:guava:24.0-jre'
+
+    compile 'com.jcraft:jsch:0.1.54'
+
+    compile 'com.turo:pushy:0.13.7'
+    compile 'io.netty:netty-tcnative-boringssl-static:2.0.20.Final'
+}
+
+
+jar {
+    archiveName 'capp.jar'
+
+    manifest {
+        attributes 'Implementation-Title': 'Central e-GULA',
+                'Implementation-Version': version,
+                'Main-Class': 'br.com.egula.capp.Padrao'
+    }
+
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}

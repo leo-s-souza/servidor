@@ -1,0 +1,14 @@
+[Unit]
+Description = CAPP - Central App
+After = network.target firebird-superclassic.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+Restart=always
+RestartSec=1
+User=root
+ExecStart=/bin/bash /opt/capp2/start.sh
+
+[Install]
+WantedBy = multi-user.target 
